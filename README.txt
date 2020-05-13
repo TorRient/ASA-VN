@@ -13,3 +13,5 @@ numpy==1.17.2
 scikit-learn==0.21.3
 scipy==1.3.1
 ```
+
+Download Fasttext https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.vi.300.vec.gz
