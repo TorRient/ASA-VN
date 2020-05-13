@@ -1,6 +1,6 @@
 import argparse
 from tqdm import tqdm
-from pyvi import ViTokenizer
+# from pyvi import ViTokenizer
 
 parser = argparse.ArgumentParser()
 
@@ -9,14 +9,14 @@ parser.add_argument("--mode", default="restaurant", help="mode restaurant or hot
 args = parser.parse_args()
 
 if args.mode == "restaurant":
-    train = './VLSP2018/1-VLSP2018-SA-Restaurant-train.txt'
-    dev = './VLSP2018/2-VLSP2018-SA-Restaurant-dev.txt'
-    test = './VLSP2018/3-VLSP2018-SA-Restaurant-test.txt'
+    train = './VLSP2018/1-VLSP2018-SA-Restaurant-train (7-3-2018).txt'
+    dev = './VLSP2018/2-VLSP2018-SA-Restaurant-dev (7-3-2018).txt'
+    test = './VLSP2018/3-VLSP2018-SA-Restaurant-test (8-3-2018).txt'
 
 else:
-    train = './VLSP2018/1-VLSP2018-SA-Hotel-train.txt'
-    dev = './VLSP2018/2-VLSP2018-SA-Hotel-dev.txt'
-    test = './VLSP2018/3-VLSP2018-SA-Hotel-test.txt'
+    train = './VLSP2018/1-VLSP2018-SA-Hotel-train (7-3-2018).txt'
+    dev = './VLSP2018/2-VLSP2018-SA-Hotel-dev (7-3-2018).txt'
+    test = './VLSP2018/3-VLSP2018-SA-Hotel-test (8-3-2018).txt'
 
 train_out = './VLSP2018/' + 'train.xml'
 dev_out = './VLSP2018/' + 'val.xml'
@@ -39,7 +39,8 @@ def write_xml(path_txt, output):
             start = '#' + str(idx+1)
             for line in sentences:
                 if start in line:
-                    token = ViTokenizer.tokenize(str(sentences[idx*4+1]))
+                    # token = ViTokenizer.tokenize(str(sentences[idx*4+1]))
+                    token = str(sentences[idx*4+1])
                     if len(token.split(' ')) > 512:
                         count += 1
                         continue
