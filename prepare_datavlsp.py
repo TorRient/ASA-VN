@@ -27,11 +27,11 @@ def write_xml(path_txt, output):
     label = []
     poli = []
     count = 0
-    with open(path_txt, 'r') as files:
+    with open(path_txt, 'r', encoding='utf-8') as files:
         for line in files:
             sentences.append(line)
     print(len(sentences))
-    with open(output, 'w') as out:
+    with open(output, 'w', encoding='utf-8') as out:
         out.write('<?xml version="1.0" encoding="utf-8"?>')
         out.write('<sentences>')
 
