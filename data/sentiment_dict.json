@@ -1,0 +1,58 @@
+{
+    "positive": [
+        "thích",
+        "hài lòng",
+        "tốt",
+        "rộng rãi",
+        "rộng",
+        "đẹp",
+        "tuyệt",
+        "thoáng mát",
+        "rẻ",
+        "ngon",
+        "thơm",
+        "hợp",
+        "vui",
+        "nhiệt tình",
+        "no nê",
+        "nghiền",
+        "thân thiện",
+        "thoải mái",
+        "tuyệt",
+        "bự",
+        "nhiều",
+        "siêu",
+        "tươi",
+        "chu đáo",
+        "tận tình",
+        "hết sảy",
+        "ưng",
+        "đủ vị",
+        "mát mẻ",
+        "phong phú",
+        "xứng đáng"
+    ],
+    "negative": [
+        "chảnh",
+        "mắc",
+        "hẹp",
+        "đắt",
+        "bẩn",
+        "chậm",
+        "ít",
+        "tệ",
+        "xấu",
+        "dở",
+        "nóng nực",
+        "xập xệ",
+        "nhỏ xíu",
+        "bí"
+    ],
+    "neutral": [
+        "bình thường",
+        "hơi"
+    ],
+    "not": [
+        "không"
+    ]
+}
