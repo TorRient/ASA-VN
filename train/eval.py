@@ -48,7 +48,7 @@ def eval(model, data_loader, criterion=None):
     precision = TP/(TP+FP)
     recall = TP/real
     # micro_p = np.sum(TP)/(np.sum(TP) + np.sum(FP))
-    # micro_r = np.sum(TP)/(np.sum(real))
+    micro_r = np.sum(TP)/(np.sum(real))
     macro_p = np.sum(precision)/3
     macro_r = np.sum(recall)/3
     macro_f1 = 2*macro_p*macro_r/(macro_p+macro_r)
@@ -64,4 +64,4 @@ def eval(model, data_loader, criterion=None):
     if criterion is not None:
         return accuracy, avg_loss
     else:
-        return accuracy, macro_p, macro_r, macro_f1
+        return accuracy, micro_r, macro_p, macro_r, macro_f1

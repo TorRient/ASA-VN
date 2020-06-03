@@ -17,5 +17,9 @@ def test(config):
         test_loader = make_term_test_data(config)
     else:
         test_loader = make_category_test_data(config)
-    test_accuracy = eval(model, test_loader)
-    print('test:\taccuracy: %.4f' % (test_accuracy))
+    accuracy, micro_r, macro_p, macro_r, macro_f1 = eval(model, test_loader)
+    print('Accuracy: %.4f' % (accuracy))
+    print('Micro: %.4f' % (micro_r))
+    print('Macro Precision: %.4f' % (macro_p))
+    print('Macro Recall: %.4f' % (macro_r))
+    print('Macro F1: %.4f' % (macro_f1))
