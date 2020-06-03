@@ -1,8 +1,8 @@
 import torch
 from torch import nn
 from torch import optim
-from train import make_aspect_term_model, make_aspect_category_model
-from train.make_data import make_term_data, make_category_data
+from train import make_aspect_category_model
+from train.make_data import make_category_data
 from train.make_optimizer import make_optimizer
 from train.eval import eval
 import os
@@ -15,12 +15,9 @@ from src.module.utils.loss import CapsuleLoss
 
 def train(config):
     mode = config['mode']
-    if mode == 'term':
-        model = make_aspect_term_model.make_model(config)
-        train_loader, val_loader = make_term_data(config)
-    else:
-        model = make_aspect_category_model.make_model(config)
-        train_loader, val_loader = make_category_data(config)
+    
+    model = make_aspect_category_model.make_model(config)
+    train_loader, val_loader = make_category_data(config)
     model = model.cuda()
     base_path = config['base_path']
     model_path = os.path.join(base_path, 'checkpoints/%s.pth' % config['aspect_' + mode + '_model']['type'])

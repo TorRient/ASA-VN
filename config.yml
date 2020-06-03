@@ -1,35 +1,11 @@
 mode: category
 # base_path: ./data/MAMS-ACSA
-base_path: ./dataset
+base_path: ./dataset/raw
 glove_path: ./data/cc.vi.300.txt
 sentiment_path: ./data/sentiment_dict.json
 lowercase: True
 max_vocab_size: None
 min_vocab_freq: 0
-aspect_term_model:
-  type: recurrent_capsnet
-  recurrent_capsnet:
-    embed_size: 300
-    dropout: 0.5
-    num_layers: 2
-    capsule_size: 300
-    bidirectional: True
-    optimizer: adam
-    batch_size: 64
-    learning_rate: 0.0003
-    weight_decay: 0
-    num_epoches: 20
-    gpu: 0
-  bert_capsnet:
-    bert_size: 768
-    capsule_size: 300
-    dropout: 0.1
-    optimizer: adam
-    batch_size: 32
-    learning_rate: 0.00002
-    weight_decay: 0
-    num_epoches: 5
-    gpu: 0
 aspect_category_model:
   type: recurrent_capsnet
   recurrent_capsnet:
@@ -43,14 +19,4 @@ aspect_category_model:
     learning_rate: 0.0003
     weight_decay: 0
     num_epoches: 20
-    gpu: 0
-  bert_capsnet:
-    bert_size: 768
-    capsule_size: 300
-    dropout: 0.1
-    optimizer: adam
-    batch_size: 32
-    learning_rate: 0.00003
-    weight_decay: 0
-    num_epoches: 5
     gpu: 0

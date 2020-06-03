@@ -2,7 +2,6 @@ import os
 import numpy as np
 import random
 from xml.etree.ElementTree import parse
-from pytorch_pretrained_bert import BertModel, BertTokenizer
 from data_process.vocab import Vocab
 from src.module.utils.constants import UNK, PAD_INDEX, ASPECT_INDEX
 import spacy
