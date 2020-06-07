@@ -5,11 +5,10 @@ from train.make_data import make_category_test_data
 from train.eval import eval
 
 def test(config):
-    mode = config['mode']
     model = make_aspect_category_model.make_model(config)
 
     model = model.cuda()
-    model_path = os.path.join(config['base_path'], 'checkpoints/%s.pth' % config['aspect_' + mode + '_model']['type'])
+    model_path = 'model/recurrent_capsnet.pth'
     model.load_state_dict(torch.load(model_path))
 
     test_loader = make_category_test_data(config)

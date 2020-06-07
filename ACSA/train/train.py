@@ -20,7 +20,7 @@ def train(config):
     train_loader, val_loader = make_category_data(config)
     model = model.cuda()
     base_path = config['base_path']
-    model_path = os.path.join(base_path, 'checkpoints/%s.pth' % config['aspect_' + mode + '_model']['type'])
+    model_path = 'model/recurrent_capsnet.pth'
     if not os.path.exists(os.path.dirname(model_path)):
         os.makedirs(os.path.dirname(model_path))
     with open(os.path.join(base_path, 'processed/index2word.pickle'), 'rb') as handle:

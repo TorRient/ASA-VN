@@ -8,7 +8,12 @@ pytorch==1.1.0
 adabound==0.0.5
 pyyaml==5.1.2
 numpy==1.17.2
+vncorenlp==1.0.3
 ```
+# Download model VNCoreNLP
+
+https://github.com/vncorenlp/VnCoreNLP/archive/master.zip
+
 
 ### Pretrained Word2Vec
 
@@ -45,6 +50,14 @@ python train.py
 ```
 
 ### How to test
+
+1. You must Preprocess data before
+
+2. Download pretrained model and put in folder model
+
+https://drive.google.com/file/d/1cRPkOveo2jo4oy9J_bjCWEjLjdxKFlwh/view?usp=sharing
+
+3. Run test.py
 
 ```bash
 python test.py

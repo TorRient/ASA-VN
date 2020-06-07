@@ -19,7 +19,7 @@ def check(x):
     return len(x) >= 1 and not x.isspace()
 
 def tokenizer(text):
-    tokens = [tok.text for tok in annotator.tokenizer(text)]
+    tokens = [tok for tok in annotator.tokenize(text)[0]]
     return list(filter(check, tokens))
 
 with open(os.path.join(config['base_path'], 'processed/index2word.pickle'), 'rb') as handle:
@@ -61,16 +61,19 @@ def make_data(sen, aspt , word2index):
     aspect = np.asarray(aspect, dtype=np.int32)
     return torch.tensor(sentence).long(), torch.tensor(aspect).long()
 
-# def make_tensor()
-
 sen, aspect = make_data("view đẹp, dịch vụ chán", 'SERVICE#GENERAL', word2index)
 
 model = make_aspect_category_model.make_model(config)
-model = model.cuda()
-model_path = os.path.join(config['base_path'], 'checkpoints/%s.pth' % config['aspect_' + mode + '_model']['type'])
-model.load_state_dict(torch.load(model_path))
-model.eval()
-
-print(model(sen, aspect))
-
+if torch.cuda.is_available():
+    model = model.cuda()
+    model_path = 'model/recurrent_capsnet.pth'
+    model.load_state_dict(torch.load(model_path))
+    model.eval()
+    device = torch.device("cuda")
+    print(model(sen.to(device), aspect.to(device)))
+else:
+    model_path = 'model/recurrent_capsnet.pth'
+    model.load_state_dict(torch.load(model_path, map_location='cpu'))
+    model.eval()
+    print(model(sen, aspect))
 annotator.close()
