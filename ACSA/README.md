@@ -2,7 +2,7 @@
 Aspect-category sentiment analysis
 
 ### Requirements
-
+# NVIDIA GPU
 ```
 pytorch==1.1.0
 adabound==0.0.5
