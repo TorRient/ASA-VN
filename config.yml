@@ -1,7 +1,7 @@
 mode: category
 # base_path: ./data/MAMS-ACSA
 base_path: ./dataset/raw
-glove_path: ./data/cc.vi.300.txt
+glove_path: ./fasttext/cc.vi.300.txt
 sentiment_path: ./data/sentiment_dict.json
 lowercase: True
 max_vocab_size: None

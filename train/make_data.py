@@ -8,10 +8,8 @@ input_list = {
 
 def make_category_data(config):
     model_type = config['aspect_category_model']['type']
-    if 'bert' in model_type:
-        i_list = ['bert_token', 'bert_segment']
-    else:
-        i_list = ['sentence', 'aspect']
+    
+    i_list = ['sentence', 'aspect']
     base_path = config['base_path']
     train_path = os.path.join(base_path, 'processed/train.npz')
     val_path = os.path.join(base_path, 'processed/val.npz')
@@ -34,10 +32,8 @@ def make_category_data(config):
 
 def make_category_test_data(config):
     model_type = config['aspect_category_model']['type']
-    if 'bert' in model_type:
-        i_list = ['bert_token', 'bert_segment']
-    else:
-        i_list = ['sentence', 'aspect']
+
+    i_list = ['sentence', 'aspect']
     base_path = config['base_path']
     test_path = os.path.join(base_path, 'processed/test.npz')
     test_data = ABSADataset(test_path, i_list)

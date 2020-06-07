@@ -9,8 +9,6 @@ def make_model(config):
     model_type = config['aspect_category_model']['type']
     if model_type == 'recurrent_capsnet':
         return make_recurrent_capsule_network(config)
-    elif model_type == 'bert_capsnet':
-        return make_bert_capsule_network(config)
     else:
         raise ValueError('No Supporting.')
 
