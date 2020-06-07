@@ -17,7 +17,7 @@ https://github.com/vncorenlp/VnCoreNLP/archive/master.zip
 
 ### Pretrained Word2Vec
 
-Download Fasttext https://drive.google.com/file/d/1LV9z1RXkEg0niuC15jcW2JeeYDilXiiC/view
+Download Word2Vec https://drive.google.com/file/d/1LV9z1RXkEg0niuC15jcW2JeeYDilXiiC/view
 
 Extract and put in folder word2vec
 
