@@ -19,12 +19,12 @@ def train(config):
     model = make_aspect_category_model.make_model(config)
     train_loader, val_loader = make_category_data(config)
     model = model.cuda()
-    base_path = config['base_path']
+    # base_path = config['base_path']
     model_path = 'model/recurrent_capsnet.pth'
     if not os.path.exists(os.path.dirname(model_path)):
         os.makedirs(os.path.dirname(model_path))
-    with open(os.path.join(base_path, 'processed/index2word.pickle'), 'rb') as handle:
-        index2word = pickle.load(handle)
+    # with open(os.path.join(base_path, 'processed/index2word.pickle'), 'rb') as handle:
+    #     index2word = pickle.load(handle)
     criterion = CapsuleLoss()
     optimizer = make_optimizer(config, model)
     max_val_accuracy = 0
