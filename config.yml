@@ -1,7 +1,7 @@
 mode: category
 # base_path: ./data/MAMS-ACSA
 base_path: ./dataset/raw
-glove_path: ./fasttext/cc.vi.300.txt
+glove_path: ./word2vec/baomoi.window2.vn.model.txt
 sentiment_path: ./data/sentiment_dict.json
 lowercase: True
 max_vocab_size: None
@@ -16,7 +16,7 @@ aspect_category_model:
     bidirectional: True
     optimizer: adam
     batch_size: 64
-    learning_rate: 0.0003
+    learning_rate: 0.001
     weight_decay: 0
     num_epoches: 20
     gpu: 0

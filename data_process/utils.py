@@ -4,22 +4,16 @@ import random
 from xml.etree.ElementTree import parse
 from data_process.vocab import Vocab
 from src.module.utils.constants import UNK, PAD_INDEX, ASPECT_INDEX
-import spacy
 import re
 import json
 from tqdm import tqdm
-
-url = re.compile('(<url>.*</url>)')
-spacy_en = spacy.load('en')
 
 def check(x):
     return len(x) >= 1 and not x.isspace()
 
 def tokenizer(text):
-    tokens = [tok.text for tok in spacy_en.tokenizer(url.sub('@URL@', text))]
+    tokens = text.split()
     return list(filter(check, tokens))
-
-#bert_tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
 
 def parse_sentence_term(path, lowercase=False):
     tree = parse(path)
@@ -95,8 +89,6 @@ def save_term_data(data, word2index, path):
     aspect = []
     label = []
     context = []
-    # bert_token = []
-    # bert_segment = []
     td_left = []
     td_right = []
     f = lambda x: word2index[x] if x in word2index else word2index[UNK]
@@ -116,18 +108,12 @@ def save_term_data(data, word2index, path):
         left_part = g(text[:start])
         right_part = g(text[end:])
         context.append(left_part + [ASPECT_INDEX] + right_part)
-        # bert_sentence = bert_tokenizer.tokenize(text)
-        # bert_aspect = bert_tokenizer.tokenize(term)
-        # bert_token.append(bert_tokenizer.convert_tokens_to_ids(['[CLS]'] + bert_sentence + ['[SEP]'] + bert_aspect + ['[SEP]']))
-        # bert_segment.append([0] * (len(bert_sentence) + 2) + [1] * (len(bert_aspect) + 1))
         td_left.append(g(text[:end]))
         td_right.append(g(text[start:])[::-1])
-        #assert len(bert_token[-1]) == len(bert_segment[-1])
     max_length = lambda x: max([len(y) for y in x])
     sentence_max_len = max_length(sentence)
     aspect_max_len = max_length(aspect)
     context_max_len = max_length(context)
-    #bert_max_len = max_length(bert_token)
     td_left_max_len = max_length(td_left)
     td_right_max_len = max_length(td_right)
     num = len(data)
@@ -135,16 +121,12 @@ def save_term_data(data, word2index, path):
         sentence[i].extend([0] * (sentence_max_len - len(sentence[i])))
         aspect[i].extend([0] * (aspect_max_len - len(aspect[i])))
         context[i].extend([0] * (context_max_len - len(context[i])))
-        #bert_token[i].extend([0] * (bert_max_len - len(bert_token[i])))
-        #bert_segment[i].extend([0] * (bert_max_len - len(bert_segment[i])))
         td_left[i].extend([0] * (td_left_max_len - len(td_left[i])))
         td_right[i].extend([0] * (td_right_max_len - len(td_right[i])))
     sentence = np.asarray(sentence, dtype=np.int32)
     aspect = np.asarray(aspect, dtype=np.int32)
     label = np.asarray(label, dtype=np.int32)
     context = np.asarray(context, dtype=np.int32)
-    # bert_token = np.asarray(bert_token, dtype=np.int32)
-    # bert_segment = np.asarray(bert_segment, dtype=np.int32)
     td_left = np.asarray(td_left, dtype=np.int32)
     td_right = np.asarray(td_right, dtype=np.int32)
     np.savez(path, sentence=sentence, aspect=aspect, label=label, context=context,
@@ -157,8 +139,6 @@ def save_category_data(data, word2index, path):
     sentence = []
     aspect = []
     label = []
-    #bert_token = []
-    #bert_segment = []
     f = lambda x: word2index[x] if x in word2index else word2index[UNK]
     g = lambda x: list(map(f, tokenizer(x)))
     d = {
@@ -220,43 +200,15 @@ def save_category_data(data, word2index, path):
         sentence.append(g(text))
         aspect.append(cd[category])
         label.append(d[polarity])
-        #bert_sentence = bert_tokenizer.tokenize(text)
-        #bert_aspect = bert_tokenizer.tokenize(category)
-        #bert_token.append(bert_tokenizer.convert_tokens_to_ids(['[CLS]'] + bert_sentence + ['[SEP]'] + bert_aspect + ['[SEP]']))
-        #bert_segment.append([0] * (len(bert_sentence) + 2) + [1] * (len(bert_aspect) + 1))
-        #assert len(bert_token[-1]) == len(bert_segment[-1])
     max_length = lambda x: max([len(y) for y in x])
     sentence_max_len = max_length(sentence)
-    #bert_max_len = max_length(bert_token)
     num = len(data)
     for i in range(num):
         sentence[i].extend([0] * (sentence_max_len - len(sentence[i])))
-        #bert_token[i].extend([0] * (bert_max_len - len(bert_token[i])))
-        #bert_segment[i].extend([0] * (bert_max_len - len(bert_segment[i])))
     sentence = np.asarray(sentence, dtype=np.int32)
     aspect = np.asarray(aspect, dtype=np.int32)
     label = np.asarray(label, dtype=np.int32)
-    #bert_token = np.asarray(bert_token, dtype=np.int32)
-    #bert_segment = np.asarray(bert_segment, dtype=np.int32)
     np.savez(path, sentence=sentence, aspect=aspect, label=label)
-
-def analyze_term(data):
-    num = len(data)
-    sentence_lens = []
-    aspect_lens = []
-    log = {'total': num}
-    for piece in data:
-        text, term, polarity, _, _ = piece.split('__split__')
-        sentence_lens.append(len(tokenizer(text)))
-        aspect_lens.append(len(tokenizer(term)))
-        if not polarity in log:
-            log[polarity] = 0
-        log[polarity] += 1
-    log['sentence_max_len'] = max(sentence_lens)
-    log['sentence_avg_len'] = sum(sentence_lens) / len(sentence_lens)
-    log['aspect_max_len'] = max(aspect_lens)
-    log['aspect_avg_len'] = sum(aspect_lens) / len(aspect_lens)
-    return log
 
 def analyze_category(data):
     num = len(data)
