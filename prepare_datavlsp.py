@@ -1,6 +1,10 @@
 import argparse
 from tqdm import tqdm
-# from pyvi import ViTokenizer
+from preprocess_sentence import normalize_text
+
+from vncorenlp import VnCoreNLP
+
+annotator = VnCoreNLP("./VnCoreNLP/VnCoreNLP-1.1.1.jar", annotators="wseg, pos", max_heap_size='-Xmx500m')
 
 parser = argparse.ArgumentParser()
 
@@ -26,11 +30,9 @@ def write_xml(path_txt, output):
     sentences = []
     label = []
     poli = []
-    count = 0
     with open(path_txt, 'r', encoding='utf-8') as files:
         for line in files:
             sentences.append(line)
-    print(len(sentences))
     with open(output, 'w', encoding='utf-8') as out:
         out.write('<?xml version="1.0" encoding="utf-8"?>')
         out.write('<sentences>')
@@ -39,18 +41,13 @@ def write_xml(path_txt, output):
             start = '#' + str(idx+1)
             for line in sentences:
                 if start in line:
-                    # token = ViTokenizer.tokenize(str(sentences[idx*4+1]))
-                    token = str(sentences[idx*4+1])
-                    if len(token.split(' ')) > 512:
-                        count += 1
-                        continue
+                    token = normalize_text(annotator, str(sentences[idx*4+1]))
                     out.write('<sentence>')
                     out.write('<text>')
                     token = token.replace("&", 'và').replace("<", '&lt;').replace(">", '&gt;')
                     out.write(token)
                     out.write('</text>')
                     out.write('<aspectCategories>')
-                    # print(sentences[idx+1])
                     for aspect in sentences[idx*4+2].split('}, '):
                         category, polarity = aspect.split(',')
                         category = category.replace('{','').replace(" ", '').replace("&", '')
@@ -64,10 +61,10 @@ def write_xml(path_txt, output):
                     out.write('</sentence>')
                     break
         out.write('</sentences>')
-    return label, poli, count
-label, poli, count = write_xml(train, train_out)
+    return label, poli
+label, poli = write_xml(train, train_out)
 write_xml(dev, dev_out)
 write_xml(test, test_out)
 print(label)
 print(poli)
-print(count)
+annotator.close()
