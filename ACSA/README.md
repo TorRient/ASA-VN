@@ -1,21 +1,36 @@
-### ASA-VN
-Aspect Sentiment Analysis VietNam
+### ACSA for VN
+Aspect-category sentiment analysis
 
 ### Requirements
 
 ```
 pytorch==1.1.0
-spacy==2.1.8
 adabound==0.0.5
 pyyaml==5.1.2
 numpy==1.17.2
-scikit-learn==0.21.3
-scipy==1.3.1
 ```
-### Pretrained Fasttext
 
-Download Fasttext https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.vi.300.vec.gz
-Put in folder fasttext
+### Pretrained Word2Vec
+
+Download Fasttext https://drive.google.com/file/d/1LV9z1RXkEg0niuC15jcW2JeeYDilXiiC/view
+
+Extract and put in folder word2vec
+
+### Prepare data (Option)
+
+Option: vì nhóm đã xử lý và đặt dữ liệu trong thư mục dataset/raw
+
+Nguồn data: https://vlsp.org.vn/vlsp2018/eval/sa
+
+```bash
+mkdir VLSP2018
+```
+
+Put file txt in folder VLSP2018
+
+```bash
+python prepare_datavlsp.py
+```
 
 ### Preprocess data
 
@@ -34,3 +49,9 @@ python train.py
 ```bash
 python test.py
 ```
+
+### Result
+
+|   Accuracy  |   Macro F1  | Macro Precision |  Macro Recall |
+| :---------: | :---------: |  :-----------:  |  :---------:  |
+|    0.7950   |    0.6662   |     0.6709      |     0.6616    |
