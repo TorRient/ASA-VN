@@ -7,20 +7,19 @@ import re
 import torch
 from src.module.utils.constants import UNK
 
-url = re.compile('(<url>.*</url>)')
-spacy_en = spacy.load('en')
+from vncorenlp import VnCoreNLP
+
+annotator = VnCoreNLP("./VnCoreNLP/VnCoreNLP-1.1.1.jar", annotators="wseg, pos", max_heap_size='-Xmx500m')
 
 import yaml
 
 config = yaml.safe_load(open('config.yml'))
-# mode = config['mode']
-# os.environ["CUDA_VISIBLE_DEVICES"] = str(config['aspect_' + mode + '_model'][config['aspect_' + mode + '_model']['type']]['gpu'])
 
 def check(x):
     return len(x) >= 1 and not x.isspace()
 
 def tokenizer(text):
-    tokens = [tok.text for tok in spacy_en.tokenizer(url.sub('@URL@', text))]
+    tokens = [tok.text for tok in annotator.tokenizer(text)]
     return list(filter(check, tokens))
 
 with open(os.path.join(config['base_path'], 'processed/index2word.pickle'), 'rb') as handle:
@@ -70,6 +69,8 @@ model = make_aspect_category_model.make_model(config)
 model = model.cuda()
 model_path = os.path.join(config['base_path'], 'checkpoints/%s.pth' % config['aspect_' + mode + '_model']['type'])
 model.load_state_dict(torch.load(model_path))
+model.eval()
 
 print(model(sen, aspect))
 
+annotator.close()
