@@ -53,7 +53,7 @@ python train.py
 
 ### How to test
 
-1. You must Preprocess data before
+1. You must Preprocess data
 
 2. Download pretrained model and put in folder model
 
