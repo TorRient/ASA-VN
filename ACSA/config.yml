@@ -1,5 +1,4 @@
 mode: category
-# base_path: ./data/MAMS-ACSA
 base_path: ./dataset/raw
 glove_path: ./word2vec/baomoi.window2.vn.model.txt
 sentiment_path: ./data/sentiment_dict.json
