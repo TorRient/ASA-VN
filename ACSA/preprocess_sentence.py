@@ -2,10 +2,6 @@ import re
 import string
 import unicodedata as ud
 
-from vncorenlp import VnCoreNLP
-
-annotator = VnCoreNLP("./VnCoreNLP/VnCoreNLP-1.1.1.jar", annotators="wseg, pos", max_heap_size='-Xmx500m')
-
 def normalize_text(vncorenlp,text):
     text = ud.normalize('NFC', text)
     #Remove các ký tự kéo dài: vd: đẹppppppp

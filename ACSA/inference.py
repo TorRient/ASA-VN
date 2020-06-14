@@ -1,3 +1,6 @@
+import sys
+sys.path.append("./ACSA")
+
 from train import make_aspect_category_model
 import numpy as np
 import pickle
@@ -6,23 +9,22 @@ import spacy
 import re
 import torch
 from src.module.utils.constants import UNK
-
 from vncorenlp import VnCoreNLP
 
 from preprocess_sentence import normalize_text
 
-annotator = VnCoreNLP("./VnCoreNLP/VnCoreNLP-1.1.1.jar", annotators="wseg, pos", max_heap_size='-Xmx500m')
-
 import yaml
 
-config = yaml.safe_load(open('config.yml'))
+config = yaml.safe_load(open('./ACSA/config.yml'))
+config['base_path'] = os.path.join('./ACSA',config['base_path'])
 
-class Inference():
-    def __init__(self):
+class Inference_ACSA():
+    def __init__(self, vncorenlp):
         self.word2index = self.get_word2index()
         self.model, self.cuda = self.get_model()
-        self.classes = ["positve", "negative", "neutral"]
-        
+        self.classes = ["positive", "negative", "neutral"]
+        self.vncorenlp = vncorenlp
+
     def get_word2index(self):
         with open(os.path.join(config['base_path'], 'processed/word2index.pickle'), 'rb') as handle:
             word2index = pickle.load(handle)
@@ -36,7 +38,7 @@ class Inference():
         return list(filter(self.check, tokens))
 
     def make_data(self, sen, aspt):
-        sen = normalize_text(annotator, sen)
+        sen = normalize_text(self.vncorenlp, sen)
 
         data = [sen + "__split__" + aspt]
         sentence = []
@@ -76,11 +78,11 @@ class Inference():
         if torch.cuda.is_available():
             cuda = True
             model = model.cuda()
-            model_path = 'model/recurrent_capsnet.pth'
+            model_path = './ACSA/model/recurrent_capsnet.pth'
             model.load_state_dict(torch.load(model_path))
             model.eval()
         else:
-            model_path = 'model/recurrent_capsnet.pth'
+            model_path = './ACSA/model/recurrent_capsnet.pth'
             model.load_state_dict(torch.load(model_path, map_location='cpu'))
             model.eval()
         return model, cuda

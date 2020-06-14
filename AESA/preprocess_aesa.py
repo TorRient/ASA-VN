@@ -1,6 +1,8 @@
 import re
 import string
 import unicodedata as ud
+import sys
+sys.path.append("./AESA")
 
 def normalize_text(vncorenlp,text,STOP_WORDS,n_min,n_max):
     text = ud.normalize('NFC', text)
