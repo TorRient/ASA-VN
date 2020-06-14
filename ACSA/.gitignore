@@ -1,6 +1,6 @@
 VLSP2018/
 VnCoreNLP/
-model/recurrent_capsnet.pth
+# model/recurrent_capsnet.pth
 word2vec/baomoi.window2.vn.model.txt
-dataset/raw/log
-dataset/raw/processed
+# dataset/raw/log
+# dataset/raw/processed
