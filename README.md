@@ -9,3 +9,9 @@ Output: category
 Input: sentence, category
 
 Output: polarity
+
+### Run Web Service
+
+```
+python server.py
+```
